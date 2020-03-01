@@ -484,7 +484,6 @@ describe('Job', () => {
       const job = await Job.create(queue, { foo: 'bar' });
       await job.progress({ total: 120, completed: 40 });
       const storedJob = await Job.fromId(queue, job.id);
-      console.error(storedJob);
       expect(storedJob.progress()).to.eql({ total: 120, completed: 40 });
     });
   });
@@ -975,6 +974,29 @@ describe('Job', () => {
             done();
           }
         );
+    });
+  });
+
+  describe('.fromJSON', () => {
+    let data;
+
+    beforeEach(() => {
+      data = { foo: 'bar' };
+    });
+
+    it('should parse JSON data by default', async () => {
+      const job = await Job.create(queue, data, {});
+      const jobParsed = Job.fromJSON(queue, job.toData());
+
+      expect(jobParsed.data).to.eql(data);
+    });
+
+    it('should not parse JSON data if "preventParsingData" option is specified', async () => {
+      const job = await Job.create(queue, data, { preventParsingData: true });
+      const jobParsed = Job.fromJSON(queue, job.toData());
+      const expectedData = JSON.stringify(data);
+
+      expect(jobParsed.data).to.be(expectedData);
     });
   });
 });
