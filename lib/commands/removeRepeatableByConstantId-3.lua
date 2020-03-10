@@ -6,13 +6,13 @@
       KEYS[1] 'repeatableQueueKey',
       KEYS[2] 'repeatableJobKey',
       KEYS[3] 'constantIdKey',
-      KEYS[4] 'jobReference',
+      ARGV[1] 'jobReference',
 ]]
 
 local repeatableQueueKey = KEYS[1]
 local repeatableJobKey = KEYS[2]
 local constantIdKey = KEYS[3]
-local jobReference = KEYS[4]
+local jobReference = ARGV[1]
 local rcall = redis.call
 
 rcall("ZREM", repeatableQueueKey, jobReference)
