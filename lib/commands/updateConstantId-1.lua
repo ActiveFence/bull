@@ -4,14 +4,14 @@
 
     Input:
       KEYS[1] 'constantId',
-      KEYS[2]  'jobId',
-      KEYS[3]  'type',
+      ARGV[1]  'jobId',
+      ARGV[2]  'type',
 
 ]]
 
 local constantId = tostring(KEYS[1])
-local jobId = tostring(KEYS[2])
-local type = tostring(KEYS[3])
+local jobId = tostring(ARGV[1])
+local type = tostring(ARGV[2])
 local rcall = redis.call
 
 if type == "remove" then
